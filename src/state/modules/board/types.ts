@@ -1,5 +1,5 @@
 export type Cell = {
-  visible: boolean;
+  is_revealed: boolean;
   is_bomb: boolean;
   is_flagged: boolean;
 

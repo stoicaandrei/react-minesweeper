@@ -1,4 +1,4 @@
-import { Cell } from 'state';
+import { Cell, Board } from 'state';
 
 export function getNeighbors(cell: Cell, cells: Cell[][]) {
   const { x, y } = cell;
@@ -16,4 +16,21 @@ export function getNeighbors(cell: Cell, cells: Cell[][]) {
   }
 
   return neighbors;
+}
+
+export function revealAll(state: Board) {
+  state.cells.forEach(row => {
+    row.forEach(cell => {
+      cell.is_revealed = true;
+    });
+  });
+}
+
+export function revealCell(cell: Cell, state: Board) {
+  if (cell.is_revealed || cell.is_flagged) return;
+
+  cell.is_revealed = true;
+  if (cell.is_bomb) revealAll(state);
+  if (!cell.value)
+    getNeighbors(cell, state.cells).map(cell => revealCell(cell, state));
 }

@@ -1,32 +1,22 @@
 import { stateManager } from '../root';
 
 import { Board, Cell } from './types';
-import { getNeighbors } from './utils';
+import { getNeighbors, revealCell } from './utils';
 
 type State = Board;
 const moduleName = 'board';
 
 stateManager.createModule(moduleName, { initialState: { cells: [] } });
 
-export const test = stateManager.createLocalEvent<unknown, State>(
-  moduleName,
-  'TEST',
-  (state, payload) => {
-    console.log({ state, payload });
-  }
-);
-
 export const initBoard = stateManager.createLocalEvent<
   { cols: number; rows: number; bombs: number },
   State
->(moduleName, 'INIT_BOARD', (state, payload) => {
-  const { cols, rows, bombs } = payload;
-
+>(moduleName, 'INIT_BOARD', (state, { cols, rows, bombs }) => {
   for (let i = 0; i < cols; i++) {
     state.cells.push([]);
     for (let j = 0; j < rows; j++) {
       state.cells[i].push({
-        visible: false,
+        is_revealed: false,
         is_bomb: false,
         is_flagged: false,
         value: 0,
@@ -62,4 +52,18 @@ export const initBoard = stateManager.createLocalEvent<
       !cell.is_bomb ? (cell.value += 1) : null
     );
   }
+});
+
+export const triggerReveal = stateManager.createLocalEvent<
+  {
+    x: number;
+    y: number;
+  },
+  State
+>(moduleName, 'TRIGGER_REVEAL', (state, { x, y }) => {
+  if (!state.cells[x] || !state.cells[x][y]) return;
+
+  const cell = state.cells[x][y];
+
+  if (!cell.is_revealed) revealCell(cell, state);
 });
