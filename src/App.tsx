@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 
 import history from './state/history';
 
-import { Test } from './views';
+import { Game } from './views';
 
 const App: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ const App: React.FC = () => {
         titleTemplate={`%s | PM`}
         titleAttributes={{ itemprop: 'name', lang: 'en' }}
       />
-      <Test />
+      <Game />
     </Router>
   );
 };
