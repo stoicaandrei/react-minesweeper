@@ -1,5 +1,6 @@
 {
-  "name": "react-fc-ts-redux-saga-boilerplate",
+  "name": "react-minesweeper",
+  "homepage": "https://stoica.dev/react-minesweeper/",
   "version": "1.0.0",
   "scripts": {
     "start": "node scripts/start.js",
