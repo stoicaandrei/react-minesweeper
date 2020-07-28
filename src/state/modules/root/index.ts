@@ -1,20 +1,9 @@
-import { combineReducers } from 'redux';
-import { all } from 'redux-saga/effects';
+import { ApiManager } from 'services';
 
-import { ApiState } from 'services';
+import { Board } from 'state';
 
-import { Pet } from 'state';
-
-import petApis from '../pet/apis';
+export const apiManager = new ApiManager();
 
 export type StoreState = {
-  pet: ApiState<Pet>;
+  board: Board;
 };
-
-export const rootReducer = combineReducers({
-  [petApis.name]: petApis.reducer,
-});
-
-export function* rootSaga() {
-  yield all([petApis.saga()]);
-}

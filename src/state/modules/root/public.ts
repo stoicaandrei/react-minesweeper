@@ -1,4 +1,5 @@
-import * as petSelectors from '../pet/selectors';
-export { petSelectors };
-export * from '../pet/actions';
-export * from '../pet/types';
+import * as boardSelectors from '../board/selectors';
+export { boardSelectors };
+
+export * from '../board/actions';
+export * from '../board/types';

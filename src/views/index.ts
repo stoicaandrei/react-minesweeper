@@ -1,1 +1,1 @@
-export * from './PetStore';
+export { default as Test } from './Test';

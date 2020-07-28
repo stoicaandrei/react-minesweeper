@@ -28,6 +28,7 @@
     "linebreak-style": ["error", "unix"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "arrow-parens": "off"
+    "arrow-parens": "off",
+    "react/prop-types": "off"
   }
 }

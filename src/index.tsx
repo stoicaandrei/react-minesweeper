@@ -12,13 +12,13 @@ import * as serviceWorker from './serviceWorker';
 import { getStore } from './state/store';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={getStore()}>
-      <HelmetProvider>
-        <App />
-      </HelmetProvider>
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={getStore()}>
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

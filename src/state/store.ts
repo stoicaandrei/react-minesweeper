@@ -2,7 +2,9 @@ import { createStore, compose, applyMiddleware, StoreEnhancer } from 'redux';
 import { devToolsEnhancer } from 'redux-devtools-extension/logOnlyInProduction';
 import createSagaMiddleware from 'redux-saga';
 
-import { rootSaga, rootReducer, StoreState } from './modules/root/';
+import { apiManager, StoreState } from './modules/root/';
+
+import { createSocketMiddleware } from 'services';
 
 /**
  * Create the redux-saga middleware.
@@ -14,6 +16,7 @@ const sagaMiddleware = createSagaMiddleware();
  */
 const enhancers = compose(
   /* Add the redux-saga middleware */
+  applyMiddleware(createSocketMiddleware(apiManager)),
   applyMiddleware(sagaMiddleware),
   /* Include the devtools. Comment this out if you don't want to use the dev tools. */
   devToolsEnhancer({})
@@ -23,10 +26,10 @@ const enhancers = compose(
  * Create the store. We do not include an initial state, as each of the module / duck
  * reducers includes its own initial state.
  */
-const store = createStore(rootReducer, enhancers);
+const store = createStore(apiManager.reducer, enhancers);
 
 /* Run the root saga */
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(apiManager.saga);
 
 export function getStore() {
   return store;

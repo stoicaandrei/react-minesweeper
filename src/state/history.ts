@@ -9,7 +9,6 @@ history.location = {
   state: {},
 };
 
-
 history.listen(() => {
   history.location = {
     ...history.location,

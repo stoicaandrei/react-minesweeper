@@ -1,48 +1,59 @@
 import queryString from 'query-string';
+import { select } from 'redux-saga/effects';
 
-import { API_URL } from 'appConstants';
+import { API_URL } from 'settings';
 
 type apiParams<Payload> = {
   path: string;
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  endpoint: string;
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   data?: Payload;
-  auth?: boolean;
+  token?: string;
+  session_id?: string;
 };
 
-export type ApiCaller = <T>(params: apiParams<T>) => Promise<any>;
+export async function apiCaller<Payload>({
+  path,
+  method = 'GET',
+  data,
+  token,
+  session_id,
+  endpoint,
+}: apiParams<Payload>): Promise<any> {
+  // session_id is required for the session specific requests
+  if (session_id) data = { ...data, session_id: session_id } as any;
 
-export function apiCaller(endpoint: string): ApiCaller {
-  const baseUrl = `${API_URL}/${endpoint}`;
+  const query = '?' + queryString.stringify((data as any) || {});
 
-  return async function <Payload>({
-    path,
-    method = 'GET',
-    data,
-    auth = true,
-  }: apiParams<Payload>): Promise<any> {
-    const query = '?' + queryString.stringify((data as any) || {});
+  let url = `${API_URL}/${endpoint}${path}`;
+  if (!url.endsWith('/')) url += '/';
 
-    let url = `${baseUrl}${path}${method === 'GET' ? query : ''}`;
+  if (method === 'GET') url += query;
 
-    const urlParams = path.split('/').filter(s => s[0] === ':');
+  const urlParams = path.split('/').filter(s => s[0] === ':');
 
-    urlParams.forEach(
-      param => (url = url.replace(param, (data as any)[param.slice(1)]))
-    );
+  urlParams.forEach(param => {
+    const key = param.slice(1);
+    url = url.replace(param, (data as any)[key]);
+    (data as any)[key] = undefined;
+  });
 
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
 
-    if (auth) {
-      headers.append('Authorization', `JWT ${'token'}`);
-    }
+  if (token) {
+    headers.append('Authorization', `JWT ${token}`);
+  }
 
-    const response = await fetch(url, {
-      headers,
-      method,
-      body: method !== 'GET' ? JSON.stringify(data) : undefined,
-    });
+  const response = await fetch(url, {
+    headers,
+    method,
+    body: method !== 'GET' ? JSON.stringify(data) : undefined,
+  });
 
-    return response.json();
-  };
+  try {
+    return { result: await response.json(), status: response.status };
+  } catch (e) {
+    return { result: e, status: response.status };
+  }
 }

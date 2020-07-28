@@ -1,4 +1,5 @@
-export { default as ApiConstructor } from './ApiConstructor';
-export * from './API';
 export * from './ApiCaller';
-export * from './ApiState';
+export { default as ApiManager } from './ApiManager';
+export * from './createSocketActions';
+export { default as createSocketMiddleware } from './createSocketMiddleware';
+export * from './types';
