@@ -54,16 +54,12 @@ export const initBoard = stateManager.createLocalEvent<
   }
 });
 
-export const triggerReveal = stateManager.createLocalEvent<
-  {
-    x: number;
-    y: number;
-  },
-  State
->(moduleName, 'TRIGGER_REVEAL', (state, { x, y }) => {
-  if (!state.cells[x] || !state.cells[x][y]) return;
+export const triggerReveal = stateManager.createLocalEvent<Cell, State>(
+  moduleName,
+  'TRIGGER_REVEAL',
+  (state, { x, y }) => {
+    const cell = state.cells[x][y];
 
-  const cell = state.cells[x][y];
-
-  if (!cell.is_revealed) revealCell(cell, state);
-});
+    if (!cell.is_revealed) revealCell(cell, state);
+  }
+);

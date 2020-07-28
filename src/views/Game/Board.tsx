@@ -5,6 +5,8 @@ import { Row, Col, Layout, Button } from 'antd';
 
 import { boardSelectors, triggerReveal } from 'state';
 
+import Cell from './Cell';
+
 const Board: React.FC = () => {
   const dispatch = useDispatch();
   const board = useSelector(boardSelectors.board);
@@ -15,13 +17,7 @@ const Board: React.FC = () => {
         <Row key={i}>
           {row.map((cell, j) => (
             <Col key={j}>
-              <Button
-                type={cell.is_revealed ? 'primary' : undefined}
-                style={{ width: 30, height: 30 }}
-                onClick={() => dispatch(triggerReveal({ x: i, y: j }))}
-              >
-                {cell.value}
-              </Button>
+              <Cell cell={cell} />
             </Col>
           ))}
         </Row>
