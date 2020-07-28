@@ -34,3 +34,10 @@ export function revealCell(cell: Cell, state: Board) {
   if (!cell.value)
     getNeighbors(cell, state.cells).map(cell => revealCell(cell, state));
 }
+
+export function countFlags(cell: Cell, cells: Cell[][]) {
+  return getNeighbors(cell, cells).reduce(
+    (p, c) => (c.is_flagged ? p + 1 : p),
+    0
+  );
+}

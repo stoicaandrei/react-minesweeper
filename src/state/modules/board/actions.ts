@@ -1,7 +1,7 @@
 import { stateManager } from '../root';
 
 import { Board, Cell } from './types';
-import { getNeighbors, revealCell } from './utils';
+import { getNeighbors, revealCell, countFlags } from './utils';
 
 type State = Board;
 const moduleName = 'board';
@@ -60,7 +60,12 @@ export const triggerReveal = stateManager.createLocalEvent<Cell, State>(
   (state, { x, y }) => {
     const cell = state.cells[x][y];
 
-    if (!cell.is_revealed) revealCell(cell, state);
+    if (!cell.is_revealed) return revealCell(cell, state);
+
+    if (countFlags(cell, state.cells) === cell.value)
+      return getNeighbors(cell, state.cells).forEach(cell =>
+        revealCell(cell, state)
+      );
   }
 );
 
