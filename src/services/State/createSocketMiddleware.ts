@@ -9,9 +9,9 @@ import {
   SOCKET_RECONNECTED,
 } from './constants';
 
-import { SocketAction, ApiManager } from 'services';
+import { SocketAction, StateManager } from 'services';
 
-export default function createSocketMiddleware(apiManager: ApiManager) {
+export default function createSocketMiddleware(stateManager: StateManager) {
   return (store: any) => (next: any) => (action: SocketAction) => {
     let res;
     let module, event;
@@ -21,14 +21,14 @@ export default function createSocketMiddleware(apiManager: ApiManager) {
       res = next(action);
       switch (action.type) {
         case SOCKET_CONNECT:
-          apiManager.onOpen((socketDesc: string) => {
+          stateManager.onOpen((socketDesc: string) => {
             store.dispatch({
               type: SOCKET_CONNECTED,
               meta: SOCKET_COMMAND,
               socketDesc: socketDesc,
             });
           });
-          apiManager.onClose((socketDesc: string, wasClean: boolean) => {
+          stateManager.onClose((socketDesc: string, wasClean: boolean) => {
             console.log('closing ', socketDesc, wasClean);
             store.dispatch({
               type: SOCKET_CLOSED,
@@ -37,7 +37,7 @@ export default function createSocketMiddleware(apiManager: ApiManager) {
               wasClean: wasClean,
             });
           });
-          apiManager.onMessage((socketDesc: string, message: string) => {
+          stateManager.onMessage((socketDesc: string, message: string) => {
             store.dispatch({
               type: SOCKET_RECEIVE,
               payload: message,
@@ -45,14 +45,14 @@ export default function createSocketMiddleware(apiManager: ApiManager) {
               socketDesc: socketDesc,
             });
           });
-          apiManager.onReconnect((socketDesc: string) => {
+          stateManager.onReconnect((socketDesc: string) => {
             store.dispatch({
               type: SOCKET_RECONNECT,
               meta: SOCKET_COMMAND,
               socketDesc: socketDesc,
             });
           });
-          apiManager.connectToSocket(
+          stateManager.connectToSocket(
             action.socketDesc,
             action.token,
             action.uri
@@ -60,16 +60,16 @@ export default function createSocketMiddleware(apiManager: ApiManager) {
           break;
         case SOCKET_DISCONNECT:
           console.log('disconecting ');
-          apiManager.disconnectFromSocket(action.socketDesc);
+          stateManager.disconnectFromSocket(action.socketDesc);
           break;
         case SOCKET_RECEIVE:
           [module, event] = action.payload['type'].split('.');
           if (
-            apiManager.events.hasOwnProperty(module) &&
-            apiManager.events[module].events.hasOwnProperty(event)
+            stateManager.events.hasOwnProperty(module) &&
+            stateManager.events[module].events.hasOwnProperty(event)
           ) {
             store.dispatch(
-              apiManager.events[module].events[event](action.payload['data'])
+              stateManager.events[module].events[event](action.payload['data'])
             );
           } else {
             console.warn({ module, event }, 'does not exist');

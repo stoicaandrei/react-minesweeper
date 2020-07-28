@@ -1,13 +1,13 @@
 import * as types from './types';
 
-import { apiManager } from '../root';
+import { stateManager } from '../root';
 
 type State = types.Board;
 const stateModule = 'board';
 
-apiManager.createModule(stateModule, { initialState: {} });
+stateManager.createModule(stateModule, { initialState: {} });
 
-export const test = apiManager.createLocalEvent<unknown, State>(
+export const test = stateManager.createLocalEvent<unknown, State>(
   stateModule,
   'TEST',
   (state, payload) => {

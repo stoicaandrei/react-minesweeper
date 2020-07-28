@@ -1,2 +1,2 @@
 export { default as useInterval } from './useInterval';
-export * from './Api';
+export * from './State';

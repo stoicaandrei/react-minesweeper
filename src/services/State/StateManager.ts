@@ -25,7 +25,7 @@ import {
   SOCKET_OPENED,
 } from './constants';
 
-export default class ApiManager {
+export default class StateManager {
   readonly sockets: {
     [key: string]: {
       socket: WebSocket;
@@ -39,10 +39,10 @@ export default class ApiManager {
   private pingInterval: NodeJS.Timeout | null;
   readonly logging: boolean;
 
-  private handleMessage: any;
-  private handleOpen: any;
-  private handleClose: any;
-  private handleReconnect: any;
+  private handleMessage: (...args: unknown[]) => void;
+  private handleOpen: (...args: unknown[]) => void;
+  private handleClose: (...args: unknown[]) => void;
+  private handleReconnect: (...args: unknown[]) => void;
 
   readonly socketEvents: {
     // module
@@ -62,10 +62,10 @@ export default class ApiManager {
     this.logging = true;
 
     // Callbacks
-    this.handleMessage = null;
-    this.handleOpen = null;
-    this.handleClose = null;
-    this.handleReconnect = null;
+    this.handleMessage = a => console.log(a);
+    this.handleOpen = a => console.log(a);
+    this.handleClose = a => console.log(a);
+    this.handleReconnect = a => console.log(a);
 
     this.socketEvents = {};
   }
