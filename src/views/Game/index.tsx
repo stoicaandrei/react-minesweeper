@@ -9,7 +9,7 @@ const Game: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(initBoard({ rows: 3, cols: 3, bombs: 1 }));
+    dispatch(initBoard({ rows: 10, cols: 10, bombs: 10 }));
   }, [dispatch]);
 
   return (

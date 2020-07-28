@@ -63,3 +63,15 @@ export const triggerReveal = stateManager.createLocalEvent<Cell, State>(
     if (!cell.is_revealed) revealCell(cell, state);
   }
 );
+
+export const triggerFlag = stateManager.createLocalEvent<Cell, State>(
+  moduleName,
+  'TRIGGER_FLAG',
+  (state, { x, y }) => {
+    const cell = state.cells[x][y];
+
+    if (cell.is_revealed) return;
+
+    cell.is_flagged = !cell.is_flagged;
+  }
+);
