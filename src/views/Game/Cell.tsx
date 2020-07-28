@@ -17,7 +17,10 @@ const Cell: React.FC<props> = ({ cell }) => {
       type={cell.is_revealed ? 'primary' : undefined}
       danger={cell.is_revealed && cell.is_bomb}
       style={{ width: 30, height: 30 }}
-      onClick={() => dispatch(triggerReveal(cell))}
+      onMouseDown={e => {
+        e.preventDefault();
+        if (e.button === 0) dispatch(triggerReveal(cell));
+      }}
       onContextMenu={e => {
         e.preventDefault();
         dispatch(triggerFlag(cell));
@@ -27,6 +30,8 @@ const Cell: React.FC<props> = ({ cell }) => {
         ? cell.is_bomb
           ? 'B'
           : cell.value
+          ? cell.value
+          : ' '
         : cell.is_flagged
         ? 'F'
         : ' '}
