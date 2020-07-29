@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from 'antd';
@@ -16,7 +16,10 @@ const Cell: React.FC<props> = ({ cell }) => {
     <Button
       type={cell.is_revealed ? 'primary' : undefined}
       danger={cell.is_revealed && cell.is_bomb}
-      style={{ width: 30, height: 30 }}
+      style={{
+        height: 30,
+        width: 30,
+      }}
       onMouseDown={e => {
         e.preventDefault();
         if (e.button === 0) dispatch(triggerReveal(cell));
@@ -39,4 +42,4 @@ const Cell: React.FC<props> = ({ cell }) => {
   );
 };
 
-export default Cell;
+export default memo(Cell);
