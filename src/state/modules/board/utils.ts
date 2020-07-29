@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { Cell, Board } from 'state';
 
 export function getNeighbors(cell: Cell, cells: Cell[][]) {
@@ -63,6 +65,7 @@ export function generateBoard(
   state.cells = [];
   for (let i = 0; i < rows; i++) {
     state.cells.push([]);
+    state.startTime = new Date();
     for (let j = 0; j < cols; j++) {
       state.cells[i].push({
         is_revealed: false,

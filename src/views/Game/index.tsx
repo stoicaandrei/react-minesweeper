@@ -5,9 +5,8 @@ import { Row as AntdRow, Button, Layout } from 'antd';
 
 import Board from './Board';
 import DifficultySelector from './DifficultySelector';
-import { EASY } from './constants';
 
-import { initBoard, resetBoard } from 'state';
+import { resetBoard } from 'state';
 
 const Game: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,7 +14,10 @@ const Game: React.FC = () => {
   const Row: React.FC<{ paddingTop: number }> = props => (
     <AntdRow
       justify="center"
-      style={{ textAlign: 'center', paddingTop: props.paddingTop }}
+      style={{
+        textAlign: 'center',
+        paddingTop: props.paddingTop,
+      }}
     >
       {props.children}
     </AntdRow>
@@ -29,7 +31,7 @@ const Game: React.FC = () => {
       <Row paddingTop={10}>
         <Button onClick={() => dispatch(resetBoard({}))}>Reset</Button>
       </Row>
-      <Row paddingTop={10}>
+      <Row paddingTop={0}>
         <Board />
       </Row>
       <Row paddingTop={10}>

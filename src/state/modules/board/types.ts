@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export type Cell = {
   is_revealed: boolean;
   is_bomb: boolean;
@@ -17,5 +19,6 @@ export type Board = {
   cols: number;
   bombs: number;
   status: GameStatus;
+  startTime: Date;
   cells: Cell[][];
 };
