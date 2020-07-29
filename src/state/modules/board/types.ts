@@ -10,9 +10,12 @@ export type Cell = {
   size?: number;
 };
 
+export type GameStatus = 'playing' | 'won' | 'lost';
+
 export type Board = {
   rows: number;
   cols: number;
   bombs: number;
+  status: GameStatus;
   cells: Cell[][];
 };

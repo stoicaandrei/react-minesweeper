@@ -7,9 +7,10 @@ import { triggerReveal, triggerFlag, Cell as CellType } from 'state';
 
 type props = {
   cell: CellType;
+  disabled: boolean;
 };
 
-const Cell: React.FC<props> = ({ cell }) => {
+const Cell: React.FC<props> = ({ cell, disabled }) => {
   const dispatch = useDispatch();
 
   return (
@@ -23,10 +24,12 @@ const Cell: React.FC<props> = ({ cell }) => {
       }}
       onMouseDown={e => {
         e.preventDefault();
+        if (disabled) return;
         if (e.button === 0) dispatch(triggerReveal(cell));
       }}
       onContextMenu={e => {
         e.preventDefault();
+        if (disabled) return;
         dispatch(triggerFlag(cell));
       }}
     >

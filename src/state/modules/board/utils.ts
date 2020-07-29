@@ -1,4 +1,4 @@
-import { Cell, Board } from 'state';
+import { Cell, Board, GameStatus } from 'state';
 
 export function getNeighbors(cell: Cell, cells: Cell[][]) {
   const { x, y } = cell;
@@ -42,12 +42,25 @@ export function countFlags(cell: Cell, cells: Cell[][]) {
   );
 }
 
+export function computeGameStatus(board: Board) {
+  for (const row of board.cells) {
+    for (const cell of row) {
+      if (cell.is_revealed && cell.is_bomb) return (board.status = 'lost');
+      if (!cell.is_revealed && !cell.is_bomb) return (board.status = 'playing');
+    }
+  }
+
+  board.status = 'won';
+}
+
 export function generateBoard(
   rows: number,
   cols: number,
   bombs: number,
   state: Board
 ) {
+  state.status = 'playing';
+  state.cells = [];
   for (let i = 0; i < rows; i++) {
     state.cells.push([]);
     for (let j = 0; j < cols; j++) {
