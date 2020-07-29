@@ -41,3 +41,51 @@ export function countFlags(cell: Cell, cells: Cell[][]) {
     0
   );
 }
+
+export function generateBoard(
+  rows: number,
+  cols: number,
+  bombs: number,
+  state: Board
+) {
+  for (let i = 0; i < rows; i++) {
+    state.cells.push([]);
+    for (let j = 0; j < cols; j++) {
+      state.cells[i].push({
+        is_revealed: false,
+        is_bomb: false,
+        is_flagged: false,
+        value: 0,
+
+        x: i,
+        y: j,
+      });
+    }
+  }
+
+  const options = [];
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      options.push([i, j]);
+    }
+  }
+
+  function pickRandomAndRemove(arr: any[]) {
+    const index = Math.floor(Math.random() * arr.length);
+    const res = arr[index];
+    arr.splice(index, 1);
+    return res;
+  }
+
+  for (let i = 0; i < bombs; i++) {
+    if (!options.length) return;
+
+    const [x, y] = pickRandomAndRemove(options);
+
+    state.cells[x][y].is_bomb = true;
+
+    getNeighbors(state.cells[x][y], state.cells).forEach(cell =>
+      !cell.is_bomb ? (cell.value += 1) : null
+    );
+  }
+}
