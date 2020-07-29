@@ -11,5 +11,8 @@ export type Cell = {
 };
 
 export type Board = {
+  rows: number;
+  cols: number;
+  bombs: number;
   cells: Cell[][];
 };

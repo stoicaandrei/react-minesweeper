@@ -1,32 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Row as AntdRow, Col, Layout } from 'antd';
+import { Row as AntdRow, Button, Layout } from 'antd';
 
 import Board from './Board';
+import DifficultySelector from './DifficultySelector';
+import { EASY } from './constants';
 
-import { initBoard } from 'state';
+import { initBoard, resetBoard } from 'state';
 
 const Game: React.FC = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(initBoard({ rows: 10, cols: 10, bombs: 10 }));
-  }, [dispatch]);
-
-  const Row: React.FC = props => (
-    <AntdRow justify="center" style={{ textAlign: 'center', paddingTop: 30 }}>
+  const Row: React.FC<{ paddingTop: number }> = props => (
+    <AntdRow
+      justify="center"
+      style={{ textAlign: 'center', paddingTop: props.paddingTop }}
+    >
       {props.children}
     </AntdRow>
   );
 
   return (
     <Layout style={{ height: '100vh' }}>
-      <Row>
+      <Row paddingTop={30}>
         <h1>Minesweeper</h1>
       </Row>
-      <Row>
+      <Row paddingTop={10}>
+        <Button onClick={() => dispatch(resetBoard({}))}>Reset</Button>
+      </Row>
+      <Row paddingTop={10}>
         <Board />
+      </Row>
+      <Row paddingTop={10}>
+        <DifficultySelector />
       </Row>
     </Layout>
   );
