@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Row, Layout } from 'antd';
+import { Row as AntdRow, Col, Layout } from 'antd';
 
 import Board from './Board';
 
@@ -14,9 +14,18 @@ const Game: React.FC = () => {
     dispatch(initBoard({ rows: 10, cols: 10, bombs: 10 }));
   }, [dispatch]);
 
+  const Row: React.FC = props => (
+    <AntdRow justify="center" style={{ textAlign: 'center', paddingTop: 30 }}>
+      {props.children}
+    </AntdRow>
+  );
+
   return (
     <Layout style={{ height: '100vh' }}>
-      <Row justify="center" style={{ paddingTop: 100 }}>
+      <Row>
+        <h1>Minesweeper</h1>
+      </Row>
+      <Row>
         <Board />
       </Row>
     </Layout>
