@@ -12,7 +12,7 @@ const Board: React.FC = () => {
   const board = useSelector(boardSelectors.board);
 
   return (
-    <Layout>
+    <div style={{ border: '2px solid black' }}>
       {board.cells.map((row, i) => (
         <Row key={i}>
           {row.map((cell, j) => (
@@ -22,7 +22,7 @@ const Board: React.FC = () => {
           ))}
         </Row>
       ))}
-    </Layout>
+    </div>
   );
 };
 
