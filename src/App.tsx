@@ -17,7 +17,9 @@ const App: React.FC = () => {
         defaultTitle={'Minesweeper'}
         titleTemplate={`%s | PM`}
         titleAttributes={{ itemprop: 'name', lang: 'en' }}
-      />
+      >
+        <style>{'body { background-color: #f0f2f5; }'}</style>
+      </Helmet>
       <Game />
     </Router>
   );

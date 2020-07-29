@@ -11,9 +11,12 @@ import { resetBoard } from 'state';
 const Game: React.FC = () => {
   const dispatch = useDispatch();
 
-  const Row: React.FC<{ paddingTop: number }> = props => (
+  const Row: React.FC<{
+    paddingTop: number;
+    justifyStart?: boolean;
+  }> = props => (
     <AntdRow
-      justify="center"
+      justify={props.justifyStart ? 'start' : 'center'}
       style={{
         textAlign: 'center',
         paddingTop: props.paddingTop,
@@ -24,20 +27,20 @@ const Game: React.FC = () => {
   );
 
   return (
-    <Layout style={{ height: '100vh' }}>
+    <div>
       <Row paddingTop={30}>
         <h1>Minesweeper</h1>
       </Row>
       <Row paddingTop={10}>
         <Button onClick={() => dispatch(resetBoard({}))}>Reset</Button>
       </Row>
-      <Row paddingTop={0}>
+      <Row paddingTop={0} justifyStart={window.innerWidth < 500}>
         <Board />
       </Row>
       <Row paddingTop={10}>
         <DifficultySelector />
       </Row>
-    </Layout>
+    </div>
   );
 };
 

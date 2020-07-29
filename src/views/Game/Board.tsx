@@ -26,7 +26,6 @@ const Board: React.FC = () => {
   }, [gameStatus]);
 
   useEffect(() => {
-    console.log(startTime);
     setElapsedTime(0);
   }, [startTime]);
 
@@ -36,7 +35,7 @@ const Board: React.FC = () => {
       <Row>Time: {String(elapsedTime).padStart(3, '0')}</Row>
       <div style={{ border: '2px solid black' }}>
         {board.cells.map((row, i) => (
-          <Row key={i}>
+          <Row key={i} style={{ flexWrap: 'nowrap' }} justify="start">
             {row.map((cell, j) => (
               <Col key={j}>
                 <Cell cell={cell} disabled={gameStatus !== 'playing'} />
