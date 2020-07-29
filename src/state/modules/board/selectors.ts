@@ -3,6 +3,7 @@ import { StoreState } from '../root';
 export const board = (state: StoreState) => state.board;
 export const gameStatus = (state: StoreState) => state.board.status;
 export const startTime = (state: StoreState) => state.board.startTime;
+export const difficulty = (state: StoreState) => state.board.difficulty;
 
 export const bombsLeft = (state: StoreState) => {
   const cells = state.board.cells.flat(1);

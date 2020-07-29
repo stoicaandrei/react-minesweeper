@@ -6,10 +6,16 @@ import { Row as AntdRow, Button, Layout } from 'antd';
 import Board from './Board';
 import DifficultySelector from './DifficultySelector';
 
-import { resetBoard } from 'state';
+import { resetBoard, boardSelectors, initBoard } from 'state';
+import { EASY } from './constants';
 
 const Game: React.FC = () => {
   const dispatch = useDispatch();
+  const { cols } = useSelector(boardSelectors.board);
+
+  useEffect(() => {
+    dispatch(initBoard(EASY));
+  }, [dispatch]);
 
   const Row: React.FC<{
     paddingTop: number;
@@ -34,7 +40,7 @@ const Game: React.FC = () => {
       <Row paddingTop={10}>
         <Button onClick={() => dispatch(resetBoard({}))}>Reset</Button>
       </Row>
-      <Row paddingTop={0} justifyStart={window.innerWidth < 500}>
+      <Row paddingTop={0} justifyStart={window.innerWidth < 500 && cols > 10}>
         <Board />
       </Row>
       <Row paddingTop={10}>

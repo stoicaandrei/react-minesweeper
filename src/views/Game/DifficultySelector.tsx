@@ -3,18 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, Row } from 'antd';
 
-import { DIFFICULTIES, Difficulties, EASY } from './constants';
+import { DIFFICULTIES, EASY } from './constants';
 
-import { initBoard } from 'state';
+import { boardSelectors, initBoard, Difficulty } from 'state';
 
 const DifficultySelector: React.FC = () => {
   const dispatch = useDispatch();
 
-  const [difficulty, setDifficulty] = useState<Difficulties>('Easy');
+  const dif = useSelector(boardSelectors.difficulty);
 
-  useEffect(() => {
-    dispatch(initBoard(DIFFICULTIES.Easy));
-  }, [dispatch]);
+  const [difficulty, setDifficulty] = useState<Difficulty>(dif);
 
   return (
     <div>
@@ -22,8 +20,8 @@ const DifficultySelector: React.FC = () => {
         <Button
           key={diff}
           onClick={() => {
-            setDifficulty(diff as Difficulties);
-            dispatch(initBoard(DIFFICULTIES[diff as Difficulties]));
+            setDifficulty(diff as Difficulty);
+            dispatch(initBoard(DIFFICULTIES[diff as Difficulty]));
           }}
           type={diff === difficulty ? 'primary' : undefined}
         >

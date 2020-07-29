@@ -1,6 +1,6 @@
 import { stateManager } from '../root';
 
-import { Board, Cell } from './types';
+import { Board, Cell, Difficulty } from './types';
 import {
   getNeighbors,
   revealCell,
@@ -15,12 +15,13 @@ const moduleName = 'board';
 stateManager.createModule(moduleName, { initialState: { cells: [] } });
 
 export const initBoard = stateManager.createLocalEvent<
-  { cols: number; rows: number; bombs: number },
+  { cols: number; rows: number; bombs: number; difficulty: Difficulty },
   State
->(moduleName, 'INIT_BOARD', (state, { cols, rows, bombs }) => {
+>(moduleName, 'INIT_BOARD', (state, { cols, rows, bombs, difficulty }) => {
   state.rows = rows;
   state.cols = cols;
   state.bombs = bombs;
+  state.difficulty = difficulty;
   generateBoard(rows, cols, bombs, state);
 });
 

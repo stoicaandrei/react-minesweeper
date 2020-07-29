@@ -17,7 +17,11 @@ const Board: React.FC = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
-    setInterval(() => setElapsedTime(val => val + 1), 1000);
+    const id = setInterval(() => setElapsedTime(val => val + 1), 1000);
+
+    return () => {
+      clearInterval(id);
+    };
   }, [dispatch]);
 
   useEffect(() => {

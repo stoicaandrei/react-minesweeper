@@ -13,6 +13,7 @@ export type Cell = {
 };
 
 export type GameStatus = 'playing' | 'won' | 'lost';
+export type Difficulty = 'Easy' | 'Intermediate' | 'Expert';
 
 export type Board = {
   rows: number;
@@ -20,5 +21,6 @@ export type Board = {
   bombs: number;
   status: GameStatus;
   startTime: Date;
+  difficulty: Difficulty;
   cells: Cell[][];
 };
