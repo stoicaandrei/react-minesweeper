@@ -19,6 +19,7 @@ const Cell: React.FC<props> = ({ cell }) => {
       style={{
         height: 30,
         width: 30,
+        borderRadius: 0,
       }}
       onMouseDown={e => {
         e.preventDefault();
