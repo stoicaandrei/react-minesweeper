@@ -11,6 +11,7 @@ const Board: React.FC = () => {
   const dispatch = useDispatch();
   const board = useSelector(boardSelectors.board);
   const gameStatus = useSelector(boardSelectors.gameStatus);
+  const bombsLeft = useSelector(boardSelectors.bombsLeft);
 
   useEffect(() => {
     if (gameStatus === 'won') message.info('You won! :)');
@@ -18,16 +19,19 @@ const Board: React.FC = () => {
   }, [gameStatus]);
 
   return (
-    <div style={{ border: '2px solid black' }}>
-      {board.cells.map((row, i) => (
-        <Row key={i}>
-          {row.map((cell, j) => (
-            <Col key={j}>
-              <Cell cell={cell} disabled={gameStatus !== 'playing'} />
-            </Col>
-          ))}
-        </Row>
-      ))}
+    <div>
+      <Row>Bombs left: {bombsLeft}</Row>
+      <div style={{ border: '2px solid black' }}>
+        {board.cells.map((row, i) => (
+          <Row key={i}>
+            {row.map((cell, j) => (
+              <Col key={j}>
+                <Cell cell={cell} disabled={gameStatus !== 'playing'} />
+              </Col>
+            ))}
+          </Row>
+        ))}
+      </div>
     </div>
   );
 };

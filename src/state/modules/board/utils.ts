@@ -1,4 +1,4 @@
-import { Cell, Board, GameStatus } from 'state';
+import { Cell, Board } from 'state';
 
 export function getNeighbors(cell: Cell, cells: Cell[][]) {
   const { x, y } = cell;
